@@ -4,7 +4,7 @@ class Game
   def initialize(secret_word)
     @secret_word_array = secret_word
     @user_input = 3
-    @guesses = []
+    @incorrect_guesses = []
     @correct_guesses_array = Array.new(@secret_word_array.length, "_")
     @life = 5
     puts "#{@secret_word_array}"
@@ -22,9 +22,9 @@ class Game
       end
     end
     if @correct_guesses_array.include?(@user_input) == false
-      @guesses << @user_input
+      @incorrect_guesses << @user_input
       @life -= 1
-      puts "\n False guesses :#{@guesses}"
+      puts "\n False guesses :#{@incorrect_guesses}"
     elsif @correct_guesses_array == @secret_word_array
       @life = 0
       puts "you won!"
@@ -37,20 +37,33 @@ new_game = Game.new(word_list.sample.split(""))
 puts
 
 # get user input
-puts "Welcome to the guessing game"
+puts " W O R D    G A M E"
+puts "--------------------"
+puts "Welcome to the guessing game\n"
+puts "The secret word:"
+puts "#{new_game.correct_guesses_array}"
+puts "--------------------"
+puts "Lives: #{new_game.life}"
 puts "Please guess your first letter: "
+guess = gets.chomp.to_s
+new_game.compare(guess)
+puts "#{new_game.correct_guesses_array}"
+puts "------------------"
+
 
 until new_game.life == 0 || (new_game.correct_guesses_array == new_game.secret_word_array)
+  puts "Lives: #{new_game.life}"
+  puts "Guess another letter:"
   guess = gets.chomp.to_s
   new_game.compare(guess)
-  print new_game.correct_guesses_array
+  puts "#{new_game.correct_guesses_array}"
+
+  puts "------------------"
+
 end
 
 
 
-# Compare the guess to the secret_word array
-# if the secret_word array includes the guess
-# replace the appropriate space with the guess
-# else
+
 # Remove part of the picture
-# Add guess to display of previous guesses
+# Add guess to display of previous incorrect_guesses
