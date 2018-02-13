@@ -1,9 +1,36 @@
+class Picture
+  def initialize
+    @parachute_strings = ['  \\ ' ,'|','_','|', ' /']
+  end
+  def top
+    puts "   _________"
+    puts '  /         \ '
+    puts ' / _   _   _ \ '
+    puts ' |/ \\ / \\ / \\|'
+end
+
+  def bottom
+    puts  'o `(_} o '
+    puts  ' \\/.X.\\/'
+    puts  '   |_|'
+    puts  ' //  \\\\ '
+    puts  ' \\\\  //'
+    puts  '  U  U'
+  end
+  def removing_strings
+    @parachute_strings.each do |string|
+      print string
+    end
+  end
+
+end
+
 class Game
   attr_accessor :secret_word_array, :user_input, :life, :correct_guesses_array
 
   def initialize(secret_word)
     @secret_word_array = secret_word
-    @user_input = 3
+    @user_input = 0
     @incorrect_guesses = []
     @correct_guesses_array = Array.new(@secret_word_array.length, "_")
     @life = 5
@@ -12,10 +39,7 @@ class Game
 
   # Method to compare user_input to secret_word
   def compare(guess)
-    # puts "Please guess a letter:"
-    # @user_input = gets.chomp.to_s
     @user_input = guess
-
     @secret_word_array.each do |letter|
       if letter == @user_input
         @correct_guesses_array[@secret_word_array.index(letter)] = letter
@@ -30,8 +54,15 @@ class Game
 end
 word_list = ["cat", "dog", "horse", "bird"]
 
+
+
 new_game = Game.new(word_list.sample.split(""))
 puts
+parachute_man = Picture.new
+parachute_man.top
+parachute_man.removing_strings
+puts
+puts parachute_man.bottom
 
 # get user input
 puts " W O R D    G A M E"
@@ -60,12 +91,5 @@ end
 if new_game.life == 0
   puts "you lose"
 else new_game.correct_guesses_array == new_game.secret_word_array
-    puts "you won!"
+  puts "you won!"
 end
-
-
-
-
-
-# Remove part of the picture
-# Add guess to display of previous incorrect_guesses
