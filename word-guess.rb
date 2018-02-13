@@ -1,29 +1,57 @@
 class Picture
+  attr_accessor
   def initialize
-    @parachute_strings = ['  \\ ' ,'|','_','|', ' /']
+    @parachute_strings = ['  \\ ' ,'  |','_','|  ', ' /']
+    @life = 4
   end
   def top
     puts "   _________"
     puts '  /         \ '
     puts ' / _   _   _ \ '
     puts ' |/ \\ / \\ / \\|'
-end
+  end
 
   def bottom
-    puts  'o `(_} o '
-    puts  ' \\/.X.\\/'
-    puts  '   |_|'
-    puts  ' //  \\\\ '
-    puts  ' \\\\  //'
-    puts  '  U  U'
+    puts  '   o `(_} o '
+    puts  '    \\/.X.\\/'
+    puts  '      |_|'
+    puts  '     // \\\\ '
+    puts  '     \\\\ //'
+    puts  '      U U'
   end
-  def removing_strings
+  def print_strings
     @parachute_strings.each do |string|
       print string
     end
   end
 
+  def removing_strings
+    case
+    when @life == 4
+      print_strings
+    when @life == 3
+      @parachute_strings[-1] = " "
+      print_strings
+    when @life == 2
+      @parachute_strings[-1] = " "
+      @parachute_strings[-2] = " "
+      print_strings
+    when @life == 1
+      @parachute_strings[-1] = " "
+      @parachute_strings[-2] = " "
+      @parachute_strings[-4] = " "
+      print_strings
+    when @life == 0
+      @parachute_strings[-1] = " "
+      @parachute_strings[-2] = " "
+      @parachute_strings[-4] = " "
+      @parachute_strings[0] = " "
+      print_strings
+
+    end
+  end
 end
+
 
 class Game
   attr_accessor :secret_word_array, :user_input, :life, :correct_guesses_array
@@ -33,7 +61,7 @@ class Game
     @user_input = 0
     @incorrect_guesses = []
     @correct_guesses_array = Array.new(@secret_word_array.length, "_")
-    @life = 5
+    @life = 4
     puts "#{@secret_word_array}"
   end
 
@@ -65,6 +93,7 @@ puts
 puts parachute_man.bottom
 
 # get user input
+puts "--------------------"
 puts " W O R D    G A M E"
 puts "--------------------"
 puts "Welcome to the guessing game\n"
