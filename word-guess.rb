@@ -25,9 +25,6 @@ class Game
       @incorrect_guesses << @user_input
       @life -= 1
       puts "\n False guesses :#{@incorrect_guesses}"
-    elsif @correct_guesses_array == @secret_word_array
-      @life = 0
-      puts "you won!"
     end
   end
 end
@@ -59,8 +56,13 @@ until new_game.life == 0 || (new_game.correct_guesses_array == new_game.secret_w
   puts "#{new_game.correct_guesses_array}"
 
   puts "------------------"
-
 end
+if new_game.life == 0
+  puts "you lose"
+else new_game.correct_guesses_array == new_game.secret_word_array
+    puts "you won!"
+end
+
 
 
 
