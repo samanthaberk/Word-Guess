@@ -1,12 +1,14 @@
 class Game
-  attr_accessor = :secret_word, :user_input
+  attr_accessor :secret_word, :user_input, :life
 
   def initialize(secret_word)
     @secret_word_array = secret_word
     @user_input = 3
     @guesses = []
-    puts @secret_word_array
-    puts @secret_word_array.length
+    @correct_guesses = Array.new(@secret_word_array.length)
+    @life = 5
+    puts "#{@secret_word_array}"
+    puts "#{@correct_guesses}"
     @secret_word_array.each do |space|
       print "_ "
     end
@@ -17,6 +19,7 @@ class Game
     puts "Please guess a letter:"
     @user_input = gets.chomp.to_s
 
+
     @secret_word_array.each do |letter|
       if letter == @user_input
         print letter
@@ -26,8 +29,11 @@ class Game
     end
     if @guesses.include?(@user_input) == false
       @guesses << @user_input
-      puts @guesses
-
+      @life -= 1
+      puts "\n False guesses :#{@guesses}"
+    elsif @guesses.include?(@secret_word_array)
+      @life = 0
+      puts "you won!"
     end
   end
 end
@@ -37,7 +43,10 @@ new_game = Game.new(word_list.sample.split(""))
 puts
 
 
+until new_game.life == 0
 new_game.compare
+end
+
 
 # Prompt user for a guess
 
