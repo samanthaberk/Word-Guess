@@ -1,3 +1,4 @@
+require 'colorize'
 class Picture
   attr_accessor :parachute_man, :life
   def initialize
@@ -10,23 +11,23 @@ class Picture
 
   end
   def top
-    puts "   _________"
-    puts '  /         \ '
-    puts ' / _   _   _ \ '
-    puts ' |/ \\ / \\ / \\|'
+    puts "   _________".colorize(:blue)
+    puts '  /         \ '.colorize(:blue)
+    puts ' / _   _   _ \ '.colorize(:blue)
+    puts ' |/ \\ / \\ / \\|'.colorize(:blue)
   end
 
   def bottom
-    puts  '   o  (_} o '
-    puts  '    \\/.X.\\/'
-    puts  '      |_|'
-    puts  '     // \\\\ '
-    puts  '     \\\\ //'
-    puts  '      U U'
+    puts  '   o  (_} o '.colorize(:white)
+    puts  '    \\/.X.\\/'.colorize(:white)
+    puts  '      |_|'.colorize(:white)
+    puts  '     // \\\\ '.colorize(:white)
+    puts  '     \\\\ //'.colorize(:white)
+    puts  '      U U'.colorize(:white)
   end
   def print_strings
     @parachute_strings.each do |string|
-      print string
+      print string.colorize(:magenta)
     end
   end
 
