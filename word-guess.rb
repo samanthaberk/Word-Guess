@@ -1,8 +1,13 @@
 class Picture
-  attr_accessor
+  attr_accessor :parachute_man, :life
   def initialize
     @parachute_strings = ['  \\ ' ,'  |','_','|  ', ' /']
     @life = 4
+    top
+    print_strings
+    puts
+    bottom
+
   end
   def top
     puts "   _________"
@@ -12,7 +17,7 @@ class Picture
   end
 
   def bottom
-    puts  '   o `(_} o '
+    puts  '   o  (_} o '
     puts  '    \\/.X.\\/'
     puts  '      |_|'
     puts  '     // \\\\ '
@@ -25,44 +30,67 @@ class Picture
     end
   end
 
-  def removing_strings
-    case
-    when @life == 4
-      print_strings
-    when @life == 3
-      @parachute_strings[-1] = " "
-      print_strings
-    when @life == 2
-      @parachute_strings[-1] = " "
-      @parachute_strings[-2] = " "
-      print_strings
-    when @life == 1
-      @parachute_strings[-1] = " "
-      @parachute_strings[-2] = " "
-      @parachute_strings[-4] = " "
-      print_strings
-    when @life == 0
-      @parachute_strings[-1] = " "
-      @parachute_strings[-2] = " "
-      @parachute_strings[-4] = " "
-      @parachute_strings[0] = " "
-      print_strings
-
-    end
+  # def removing_strings
+  #   case
+  #   when @life == 4
+  #     print_strings
+  #   when @life == 3
+  #     @parachute_strings[-1] = " "
+  #     print_strings
+  #   when @life == 2
+  #     @parachute_strings[-1] = " "
+  #     @parachute_strings[-2] = " "
+  #     print_strings
+  #   when @life == 1
+  #     @parachute_strings[-1] = " "
+  #     @parachute_strings[-2] = " "
+  #     @parachute_strings[-4] = " "
+  #     print_strings
+  #   when @life == 0
+  #     @parachute_strings[-1] = " "
+  #     @parachute_strings[-2] = " "
+  #     @parachute_strings[-4] = " "
+  #     @parachute_strings[0] = " "
+  #     print_strings
+  def remove1
+    @parachute_strings[-1] = " "
+    print_strings
   end
+  def remove2
+    @parachute_strings[-1] = " "
+    @parachute_strings[-2] = " "
+    print_strings
+  end
+  def remove3
+    @parachute_strings[-1] = " "
+    @parachute_strings[-2] = " "
+    @parachute_strings[-4] = "   "
+    print_strings
+  end
+  def remove4
+    @parachute_strings[-1] = " "
+    @parachute_strings[-2] = " "
+    @parachute_strings[-4] = "   "
+    @parachute_strings[0] = "    "
+    print_strings
+  end
+
+  # end
+
 end
 
 
 class Game
-  attr_accessor :secret_word_array, :user_input, :life, :correct_guesses_array
+  attr_accessor :secret_word_array, :user_input, :life, :correct_guesses_array, :picture
 
-  def initialize(secret_word)
+  def initialize(secret_word, picture, life)
+    @picture = picture
     @secret_word_array = secret_word
     @user_input = 0
     @incorrect_guesses = []
     @correct_guesses_array = Array.new(@secret_word_array.length, "_")
-    @life = 4
-    puts "#{@secret_word_array}"
+    @life = life
+
   end
 
   # Method to compare user_input to secret_word
@@ -75,22 +103,33 @@ class Game
     end
     if @correct_guesses_array.include?(@user_input) == false
       @incorrect_guesses << @user_input
-      @life -= 1
+
       puts "\n False guesses :#{@incorrect_guesses}"
+      @picture.top
+      case @life
+      when 4
+        @picture.remove1
+      when 3
+        @picture.remove2
+      when 2
+        @picture.remove3
+      when 1
+        @picture.remove4
+        # @picture.removing_strings
+      end
+      @life -= 1
+      puts
+      @picture.bottom
     end
   end
 end
 word_list = ["cat", "dog", "horse", "bird"]
 
 
+parachute_man = Picture.new()
+new_game = Game.new(word_list.sample.split(""), parachute_man, parachute_man.life )
+puts
 
-new_game = Game.new(word_list.sample.split(""))
-puts
-parachute_man = Picture.new
-parachute_man.top
-parachute_man.removing_strings
-puts
-puts parachute_man.bottom
 
 # get user input
 puts "--------------------"
@@ -118,7 +157,11 @@ until new_game.life == 0 || (new_game.correct_guesses_array == new_game.secret_w
   puts "------------------"
 end
 if new_game.life == 0
-  puts "you lose"
+  puts "-----------------------"
+  puts "You C R A S H E D!! Bye"
+  puts "-----------------------"
 else new_game.correct_guesses_array == new_game.secret_word_array
-  puts "you won!"
+  puts "--------------------------"
+  puts "you won! Beautiful landing!"
+  puts "--------------------------"
 end
