@@ -82,7 +82,7 @@ end
 
 
 class Game
-  attr_accessor :secret_word_array, :user_input, :life, :correct_guesses_array, :picture
+  attr_accessor :secret_word_array, :user_input, :life, :correct_guesses_array, :picture, :incorrect_guesses
 
   def initialize(secret_word, picture, life)
     @picture = picture
@@ -91,7 +91,6 @@ class Game
     @incorrect_guesses = []
     @correct_guesses_array = Array.new(@secret_word_array.length, "_")
     @life = life
-
   end
 
   # Method to compare user_input to secret_word
@@ -142,7 +141,7 @@ puts "#{new_game.correct_guesses_array}"
 puts "--------------------"
 puts "Lives: #{new_game.life}"
 puts "Please guess your first letter: "
-guess = gets.chomp.to_s
+guess = gets.chomp.to_s.downcase
 new_game.compare(guess)
 puts "#{new_game.correct_guesses_array}"
 puts "------------------"
@@ -151,7 +150,11 @@ puts "------------------"
 until new_game.life == 0 || (new_game.correct_guesses_array == new_game.secret_word_array)
   puts "Lives: #{new_game.life}"
   puts "Guess another letter:"
-  guess = gets.chomp.to_s
+  guess = gets.chomp.to_s.downcase
+  while new_game.incorrect_guesses.include?(guess)
+    puts "You already tried that letter- it's still not the right answer! Choose another."
+    guess = gets.chomp.to_s.downcase
+  end
   new_game.compare(guess)
   puts "#{new_game.correct_guesses_array}"
 
